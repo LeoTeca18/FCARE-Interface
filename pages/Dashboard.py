@@ -13,13 +13,13 @@ else:
     st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
 
 # Criando coluna "Status"
-df["Status"] = df["probabilidade_fraude"].apply(lambda x: "Suspeita" if x >= 75 else "Legítima")
+df["Status"] = df["classe"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
 
 # 🔹 Indicadores
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de Transacções", len(df))
-col2.metric("Fraudes Detectadas", (df["Status"] == "Suspeita").sum())
-col3.metric("Taxa de Fraude (%)", round((df["Status"] == "Suspeita").mean()))
+col2.metric("Fraudes Detectadas", (df["Status"] == "Fraudulenta").sum())
+col3.metric("Taxa de Fraude (%)", round((df["Status"] == "Fraudulenta").mean()))
 
 st.markdown("---")
 
