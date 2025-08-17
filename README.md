@@ -22,7 +22,9 @@ cd FCARE-Interface
 Crie um ambiente virtual e instale as dependências:
 
 python -m venv venv
+
 source venv/bin/activate   # Linux/Mac
+
 venv\Scripts\activate      # Windows
 
 pip install -r requirements.txt
@@ -58,3 +60,4 @@ Streamlit
 Pandas / NumPy
 
 Matplotlib / Plotly /
+
