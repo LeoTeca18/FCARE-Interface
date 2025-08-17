@@ -8,7 +8,7 @@ st.title("📂 Upload do Dataset de Transações")
 st.write("Por favor, carregue o arquivo **CSV**.")
 
 # Colunas esperadas no CSV
-colunas_esperadas = ["id", "nome", "valor_gasto", "categoria_compra", "hora", "tipo_transacao", "localizacao", "tipo_cartao", "banco_emissor", "classe"]
+colunas_esperadas = ["id", "nome", "valor_gasto", "categoria_compra", "hora", "tipo_transacao", "localizacao", "banco_emissor", "classe"]
 
 # Upload do arquivo
 arquivo = st.file_uploader("Selecione um arquivo CSV", type=["csv"])
