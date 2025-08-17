@@ -7,31 +7,25 @@ st.set_page_config(page_title="Dashboard Principal - FCARE", page_icon="📊", l
 st.title("📊 Dashboard Principal - FCARE")
 st.write("Visão geral das transacções e estatísticas.")
 
-# 🔹 Carregar dataset real
-uploaded_file = st.file_uploader("Carregue um arquivo CSV com as transações", type=["csv"])
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+if "dataset" in st.session_state:
+    df = st.session_state["dataset"]
 else:
-    st.warning("Por favor, carregue um arquivo CSV para visualizar o dashboard.")
-    st.stop()
+    st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
 
 # Criando coluna "Status"
-df["Status"] = df["probabilidade_fraude"].apply(lambda x: "Suspeita" if x >= 0.75 else "Legítima")
+df["Status"] = df["probabilidade_fraude"].apply(lambda x: "Suspeita" if x >= 75 else "Legítima")
 
 # 🔹 Indicadores
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de Transacções", len(df))
 col2.metric("Fraudes Detectadas", (df["Status"] == "Suspeita").sum())
-col3.metric("Taxa de Fraude (%)", round((df["Status"] == "Suspeita").mean() * 100, 2))
+col3.metric("Taxa de Fraude (%)", round((df["Status"] == "Suspeita").mean()))
 
 st.markdown("---")
 
-# 🔹 Mostrar apenas transações com probabilidade de fraude >= 0.75
-df_filtrado = df[df["probabilidade_fraude"] >= 0.75]
-
 # 🔹 Tabela de transações
 st.subheader("📄 Tabela de Transacções")
-st.dataframe(df_filtrado, use_container_width=True)
+st.dataframe(df)
 
 # 🔹 Gráficos lado a lado
 col_g1, col_g2 = st.columns(2)

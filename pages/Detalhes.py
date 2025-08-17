@@ -6,36 +6,27 @@ st.set_page_config(page_title="Transações Suspeitas - FCARE", page_icon="🚨"
 st.title("🚨 Transações Suspeitas")
 st.write("Lista de transações com probabilidade de fraude igual ou superior a **75%**.")
 
-# 🔹 Carregar dataset real
-uploaded_file = st.file_uploader("Carregue um arquivo CSV com as transações", type=["csv"])
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+if "dataset" in st.session_state:
+    df = st.session_state["dataset"]
 else:
-    st.warning("Por favor, carregue um arquivo CSV para visualizar o dashboard.")
-    st.stop()
+    st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
 
 # Filtrando apenas suspeitas (≥75%)
-df_suspeitas = df[df["probabilidade_fraude"] >= 0.75]
+df_suspeitas = df[df["probabilidade_fraude"] >= 75]
 
 # Mostra tabela
 st.dataframe(df_suspeitas, use_container_width=True)
 
 # Selecionar transação para análise
 st.subheader("🔍 Analisar Transação")
-id_selecionado = st.selectbox("Selecione o ID da transação:", df_suspeitas["id"])
+id_selecionado = st.selectbox("Selecione o ID do usuário:", df_suspeitas["id"])
 
 if id_selecionado:
     transacao = df_suspeitas[df_suspeitas["id"] == id_selecionado].iloc[0]
     st.write("**Usuário:**", transacao["nome"])
     st.write("**Valor:**", transacao["valor_gasto"])
-    st.write("**Hora:**", transacao["tempo"])
-    st.write("**Probabilidade:**", f"{transacao['probabilidade_fraude']*100:.1f}%")
-
-    # Botão para histórico do usuário
-    if st.button("📜 Ver Histórico do Usuário"):
-        historico = df[df["nome"] == transacao["nome"]]
-        st.write(f"Últimas transações do usuário **{transacao['nome']}**:")
-        st.dataframe(historico)
+    st.write("**Hora:**", transacao["hora"])
+    st.write("**Probabilidade:**", f"{transacao['probabilidade_fraude']}%")
 
     # Botões para confirmar ou rejeitar
     col1, col2 = st.columns(2)
