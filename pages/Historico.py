@@ -13,7 +13,8 @@ if "dataset" in st.session_state:
     df = st.session_state["dataset"]
 else:
     st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
-
+    st.stop()
+    
 # Escolher o ID do usuário
 id_usuario = st.selectbox("🔎 Selecione o ID do Usuário", df["id"].unique())
 

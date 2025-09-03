@@ -9,7 +9,7 @@ if "dataset" in st.session_state:
     df = st.session_state["dataset"]
 else:
     st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
-
+    st.stop()
 # Filtrando apenas suspeitas (≥75%)
 df_suspeitas = df[df["probabilidade_fraude"] >= 75]
 

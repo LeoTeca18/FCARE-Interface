@@ -11,7 +11,8 @@ if "dataset" in st.session_state:
     df = st.session_state["dataset"]
 else:
     st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
-
+    st.stop()
+    
 # Criando coluna "status"
 df["status"] = df["classe"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
 
