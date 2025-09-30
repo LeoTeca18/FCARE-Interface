@@ -40,10 +40,10 @@ if id_selecionado:
     with col1:
         if st.button("✅ Confirmar Fraude"):
             df.at[transacao_escolhida, "classe"] = 1
-            df.at[transacao_escolhida, "Status"] = "Fraudulenta"
+            df.at[transacao_escolhida, "fraude"] = "Fraudulenta"
             st.success("Transação confirmada como fraude!")
     with col2:
         if st.button("❌ Rejeitar Suspeita"):
-            df.at[transacao_escolhida, "classe"] = 0
-            df.at[transacao_escolhida, "Status"] = "Legítima"
+            df.at[transacao_escolhida, "fraude"] = 0
+            df.at[transacao_escolhida, "estado"] = "Legítima"
             st.info("Suspeita rejeitada. Transação marcada como legítima.")

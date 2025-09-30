@@ -12,15 +12,17 @@ if "dataset" in st.session_state:
 else:
     st.warning("Nenhum dataset carregado. Volte à página inicial e carregue o arquivo.")
     st.stop()
-    
-# Criando coluna "status"
-df["status"] = df["classe"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
+
+# Criando coluna "estado"
+df["estado"] = df["fraude"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
+df = st.session_state.get("dataset")
+modelo = st.session_state.get("modelo")
 
 # 🔹 Indicadores
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de Transacções", len(df))
-col2.metric("Fraudes Detectadas", (df["status"] == "Fraudulenta").sum())
-col3.metric("Taxa de Fraude (%)", round((df["status"] == "Fraudulenta").mean()))
+col2.metric("Fraudes Detectadas", (df["estado"] == "Fraudulenta").sum())
+col3.metric("Taxa de Fraude (%)", round((df["estado"] == "Fraudulenta").mean()))
 
 st.markdown("---")
 
@@ -33,15 +35,15 @@ col_g1, col_g2 = st.columns(2)
 
 with col_g1:
     st.subheader("📊 Distribuição (Barras)")
-    status_counts = df["status"].value_counts().reset_index()
-    status_counts.columns = ["status", "Quantidade"]
-    fig_bar = px.bar(status_counts,
-                     x="status", y="Quantidade",
-                     labels={"status": "Status", "Quantidade": "Quantidade"},
-                     color="status")
+    estado_counts = df["estado"].value_counts().reset_index()
+    estado_counts.columns = ["estado", "Quantidade"]
+    fig_bar = px.bar(estado_counts,
+                     x="estado", y="Quantidade",
+                     labels={"estado": "Estado", "Quantidade": "Quantidade"},
+                     color="estado")
     st.plotly_chart(fig_bar, use_container_width=True)
 
 with col_g2:
     st.subheader("🥧 Distribuição (Pizza)")
-    fig_pie = px.pie(df, names="status", title="Proporção de Transações")
+    fig_pie = px.pie(df, names="estado", title="Proporção de Transações")
     st.plotly_chart(fig_pie, use_container_width=True)
