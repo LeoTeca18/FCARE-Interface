@@ -14,7 +14,7 @@ else:
     st.stop()
 
 # Criando coluna "estado"
-df["estado"] = df["fraude"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
+df["estado"] = df["classe"].apply(lambda x: "Fraudulenta" if x == 1 else "Legítima")
 df = st.session_state.get("dataset")
 modelo = st.session_state.get("modelo")
 
@@ -22,7 +22,9 @@ modelo = st.session_state.get("modelo")
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de Transacções", len(df))
 col2.metric("Fraudes Detectadas", (df["estado"] == "Fraudulenta").sum())
-col3.metric("Taxa de Fraude (%)", round((df["estado"] == "Fraudulenta").mean()))
+taxa_fraude = (df["estado"] == "Fraudulenta").mean() * 100
+col3.metric("Taxa de Fraude (%)", f"{taxa_fraude:.2f}%")
+
 
 st.markdown("---")
 

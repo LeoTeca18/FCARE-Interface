@@ -26,24 +26,29 @@ if id_selecionado:
     transacao_escolhida = st.selectbox(
         "Selecione a transação para análise:",
         transacoes_indices,
-        format_func=lambda idx: f"ID: {transacoes_usuario.loc[idx, 'id']} | Valor: {transacoes_usuario.loc[idx, 'valor_gasto']} | Hora: {transacoes_usuario.loc[idx, 'hora']}"
+        format_func=lambda idx: f"ID: {transacoes_usuario.loc[idx, 'id']} | Valor: {transacoes_usuario.loc[idx, 'valor_gasto_real']:.2f} | Hora: {transacoes_usuario.loc[idx, 'hora']}"
     )
 
     transacao = df.loc[transacao_escolhida]
     st.write("**Usuário:**", transacao["nome"])
-    st.write("**Valor:**", transacao["valor_gasto"])
+    st.write("**Valor:**", f"{transacao['valor_gasto_real']:.2f}")
     st.write("**Hora:**", transacao["hora"])
-    st.write("**Localização:**", transacao["localizacao"])
+    st.write("**Localização:**", transacao["localizacao_desc"])
     st.write("**Probabilidade:**", f"{transacao['probabilidade_fraude']}%")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("✅ Confirmar Fraude"):
+    acao = st.radio(
+        "Classifique a transação:",
+        ("✅ Confirmar Fraude", "❌ Rejeitar Suspeita"),
+        horizontal=True
+    )
+    if st.button("Salvar classificação"):
+        if acao == "✅ Confirmar Fraude":
             df.at[transacao_escolhida, "classe"] = 1
-            df.at[transacao_escolhida, "fraude"] = "Fraudulenta"
+            df.at[transacao_escolhida, "estado"] = "Fraudulenta"
             st.success("Transação confirmada como fraude!")
-    with col2:
-        if st.button("❌ Rejeitar Suspeita"):
-            df.at[transacao_escolhida, "fraude"] = 0
+        else:
+            df.at[transacao_escolhida, "classe"] = 0
             df.at[transacao_escolhida, "estado"] = "Legítima"
             st.info("Suspeita rejeitada. Transação marcada como legítima.")
+        # Atualiza o dataset na sessão
+        st.session_state["dataset"] = df

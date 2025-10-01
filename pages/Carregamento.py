@@ -49,7 +49,7 @@ if arquivo is not None:
         predicoes = modelo.predict(X)
 
         # 🔹 Adicionar colunas ao dataset original
-        df["fraude"] = predicoes  # 0 = não fraude, 1 = fraude
+        df["classe"] = predicoes  # 0 = não fraude, 1 = fraude
         df["probabilidade_fraude"] = probs.round(2)  # Percentual de 0 a 100
                 
         # 🔹 Desnormalizar valor gasto

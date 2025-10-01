@@ -27,7 +27,7 @@ historico_usuario = df[df["id"] == id_usuario].sort_values("hora", ascending=Fal
 st.dataframe(historico_usuario, use_container_width=True)
 
 # Cálculo das métricas do usuário
-media_gastos_usuario = historico_usuario["valor_gasto"].mean()
+media_gastos_usuario = historico_usuario["valor_gasto_real"].mean()
 freq_transacoes_usuario = (
     len(historico_usuario) / ((historico_usuario["hora"].max() - historico_usuario["hora"].min()))
     if len(historico_usuario) > 1 else len(historico_usuario)
@@ -41,7 +41,7 @@ with col2:
 
 # Gráfico de tendência do usuário
 st.subheader(f"📈 Tendência de Gastos de {nome_usuario}")
-df_grouped_usuario = historico_usuario.groupby("hora")["valor_gasto"].sum()
+df_grouped_usuario = historico_usuario.groupby("hora")["valor_gasto_real"].sum()
 
 fig, ax = plt.subplots(figsize=(10, 4))
 ax.plot(df_grouped_usuario.index, df_grouped_usuario.values, marker='o')
