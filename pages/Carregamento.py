@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-st.set_page_config(page_title="Upload + Predição", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Tela de Upload", page_icon="📊", layout="wide")
 
-st.title("📊 Upload e Predição de Fraude")
+st.title("📊 Tela de Upload")
 
 # Upload
 arquivo = st.file_uploader("Selecione um CSV", type=["csv"])

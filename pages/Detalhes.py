@@ -31,7 +31,7 @@ if id_selecionado:
 
     transacao = df.loc[transacao_escolhida]
     st.write("**Usuário:**", transacao["nome"])
-    st.write("**Valor:**", f"{transacao['valor_gasto_real']:.2f}")
+    st.write("**Valor:**", f"{transacao['valor_gasto_real']:.2f}", "Kz")
     st.write("**Hora:**", transacao["hora"])
     st.write("**Localização:**", transacao["localizacao_desc"])
     st.write("**Probabilidade:**", f"{transacao['probabilidade_fraude']}%")
